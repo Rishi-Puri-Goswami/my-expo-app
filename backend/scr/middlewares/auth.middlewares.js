@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import { Student } from "../scr/modules/student.module.js";
+import { Student } from "../modules/student.module.js";
     
 const verifyjwt = async (req ,res , next)=>{
   try {

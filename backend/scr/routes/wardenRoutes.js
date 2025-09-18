@@ -1,6 +1,6 @@
 import express from "express";
 import { handleStudentRequest, loginWarden, logoutWarden, refreshTokenWarden, registerWarden, getPendingRequests } from "../controllers/wardencontrole.js";
-import { verifyWardenJwt } from "../../middlewares/warden.middlewares.js";
+import { verifyWardenJwt } from "../middlewares/warden.middlewares.js";
 
 const wardenRouter = express.Router();
 

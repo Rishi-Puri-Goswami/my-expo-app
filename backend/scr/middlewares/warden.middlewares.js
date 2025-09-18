@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { Warden } from "../scr/modules/warden.module.js"; 
+import { Warden } from "../modules/warden.module.js"; 
 
 const verifyWardenJwt = async (req, res, next) => {
     try {

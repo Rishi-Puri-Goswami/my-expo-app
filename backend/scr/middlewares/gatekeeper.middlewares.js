@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { Gatekeeper } from "../scr/modules/gatekeeper.module.js"; 
+import { Gatekeeper } from "../modules/gatekeeper.module.js"; 
 
 const verifyGatekeeperJwt = async (req, res, next) => {
     try {

@@ -1,5 +1,5 @@
 import express from "express";
-import { verifyGatekeeperJwt } from "../../middlewares/gatekeeper.middlewares.js";
+import { verifyGatekeeperJwt } from "../middlewares/gatekeeper.middlewares.js";
 import { gatekeeperdata, loginGatekeeper, logoutGatekeeper, outgoingstudentdata, qrscane, refreshTokenGatekeeper, registerGatekeeper, visitorqrscane } from "../controllers/gatekeeper.control.js";
 
 const gatekeeperrouter = express.Router();

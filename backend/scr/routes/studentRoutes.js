@@ -1,6 +1,6 @@
 import express from "express";
 import { registerstudent, loginstudent, logoutstudent, refreshtoken, studentSendRequestToWarden, allwarden, getStudentById, checkStudentStatus, getingkey,history } from "../controllers/studentcontrol.js";
-import { verifyjwt } from "../../middlewares/auth.middlewares.js";
+import { verifyjwt } from "../middlewares/auth.middlewares.js";
 
 const studentRouter = express.Router();
 
