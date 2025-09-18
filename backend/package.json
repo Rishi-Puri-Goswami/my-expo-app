@@ -5,7 +5,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon scr/socket/server.js"
+     "dev": "nodemon scr/socket/server.js",
+  "start": "node scr/socket/server.js"
   },
   "author": "sahil, rishi",
   "license": "ISC",
