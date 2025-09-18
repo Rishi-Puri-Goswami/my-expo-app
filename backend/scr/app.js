@@ -10,9 +10,7 @@ import { hestoryrouter } from "./routes/hestoryRoutes.js";
 import { visitorrouter } from "./routes/visitorRoutes.js";
 import adminrouter from "./routes/adminroute.js";
 
-dotenv.config({
-    path:"../.env"
-});
+dotenv.config({ path: "./.env" });
 
 const app = express();
 

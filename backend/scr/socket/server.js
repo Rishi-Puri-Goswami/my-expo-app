@@ -2,8 +2,12 @@
 import http from "http";
 import app from "../app.js";
 import { initializeSocket, connectedUsers, io } from "./index.js";
+import dotenv from "dotenv";
 
 const server = http.createServer(app);
+
+dotenv.config({ path: "./.env" });
+
 
 initializeSocket(server); 
 
