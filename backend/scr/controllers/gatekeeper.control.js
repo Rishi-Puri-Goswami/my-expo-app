@@ -200,30 +200,30 @@ const qrscane = async (req, res) => {
 
 
     if (!key) {
-      return res.status(400).json({ message: "Student ID and security key are required." });
+      return res.status(200).json({ message: "Student ID and security key are required." });
     }
 
     if (!Gatekeeperid) {
-      return res.status(401).json({ message: "Gatekeeper not found" });
+      return res.status(200).json({ message: "Gatekeeper not found" });
     }
   
     const student = await Student.findOne({key}).select('-password -email');
 
     if (!student) {
-      return res.status(404).json({ message: "Student not found." });
+      return res.status(200).json({ message: "Student not found." });
     }
 
     if (student.key !== key) {
-      return res.status(403).json({ message: "Invalid QR code" });
+      return res.status(200).json({ message: "Invalid QR code" });
     }
 
     if (student.permission !== "accepted") {
-      return res.status(403).json({ message: "Student does not have permission to go out" });
+      return res.status(200).json({ message: "Student does not have permission to go out" });
     }
 
     const gatekeeper = await Gatekeeper.findById(Gatekeeperid).select('-password');
     if (!gatekeeper) {
-      return res.status(404).json({ message: "Gatekeeper not found." });
+      return res.status(200).json({ message: "Gatekeeper not found." });
     }
 
     
