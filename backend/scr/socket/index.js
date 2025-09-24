@@ -1,9 +1,9 @@
 import { Server } from "socket.io";
 import cookie from "cookie"
 import jwt from "jsonwebtoken"
-import { Student } from "../modules/student.module";
-import { Warden } from "../modules/warden.module";
-import { Gatekeeper } from "../modules/gatekeeper.module";
+import { Student } from "../modules/student.module.js";
+import { Warden } from "../modules/warden.module.js";
+import { Gatekeeper } from "../modules/gatekeeper.module.js";
 const connectedUsers = new Map();
 let io;
 
