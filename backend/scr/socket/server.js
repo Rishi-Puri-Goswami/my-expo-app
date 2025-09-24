@@ -15,10 +15,8 @@ server.listen(4000, '0.0.0.0', () => {
   console.log(`⚙️ Server running on http://10.105.1.152:4000`);
 });
 
+
 export { io, connectedUsers };
-
-
-
 
 
 

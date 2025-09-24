@@ -8,6 +8,10 @@ const gateKeeperSchema = new mongoose.Schema ({
         type: String,
         required: true
     },
+role : {
+    type : String ,
+    default : "Gatekeeper"
+},
 
     phoneNo:{
         type: String,

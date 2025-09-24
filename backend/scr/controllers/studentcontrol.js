@@ -105,7 +105,7 @@ if(!loginstudent){
 
     
        const token = jwt.sign(
-  { id: loginstudent._id },
+  { id: loginstudent._id , role : "Student" },
   process.env.JWT_SERECT,
   { expiresIn: 10 * 24 * 60 * 60 } // 10 days in seconds
 );
@@ -252,6 +252,7 @@ const studentSendRequestToWarden = async (req, res) => {
         const sentuserrequest = await Student.findById(studentId).select("name destination roomNo collageYear");
 
         
+        
         const wardenSocketId = connectedUsers.get(wardenId.toString());
         if (wardenSocketId) {
             io.to(wardenSocketId).emit("new_request", {
@@ -259,9 +260,11 @@ const studentSendRequestToWarden = async (req, res) => {
                 name: sentuserrequest.name,
                 destination: sentuserrequest.destination,
                 roomNo: sentuserrequest.roomNo,
-                collageYear: sentuserrequest.collageYear
+                collageYear: sentuserrequest.collageYear,
+                phoneNo : sentuserrequest.phoneNo
             });
         }
+
 
         return res.status(200).json({
             message: "Request sent successfully!",
@@ -274,6 +277,7 @@ const studentSendRequestToWarden = async (req, res) => {
         return res.status(500).json({ message: "Internal server error." });
     }
 };
+
 
 
 

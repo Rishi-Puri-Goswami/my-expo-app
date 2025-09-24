@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { Visitory } from "../modules/visitors.module.js";
 import { VisitorHistory } from "../modules/visitorHestory.js";
 import bcrypt from "bcryptjs";
-
+import { connectedUsers, io } from "../socket/index.js";
 
 const generateAccessAndRefreshTokenGatekeeper = async (gatekeeperId) => {
     try {
@@ -95,7 +95,7 @@ const loginGatekeeper = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { id: gatekeeper._id },
+            { id: gatekeeper._id , role : "Gatekeeper" },
             process.env.JWT_SERECT,
             { expiresIn: 10 * 24 * 60 * 60 } // 10 days in seconds
         );
@@ -237,6 +237,17 @@ const qrscane = async (req, res) => {
         gatekeeper.save({ validateBeforeSave: false })
       ]);
 
+
+          const studentSocketId = connectedUsers.get(student._id.toString());
+      if (studentSocketId) {
+        io.to(studentSocketId).emit("qr_status", {
+          status: "outside",
+          message: "✅ QR scanned — you can go out now.",
+        });
+      }
+
+
+
       return res.status(200).json({ message: "Student can go out" });
     }
     
@@ -274,6 +285,16 @@ const qrscane = async (req, res) => {
         gatekeeper.save({ validateBeforeSave: false })
       ]);
 
+
+        const studentSocketId = connectedUsers.get(student._id.toString());
+      if (studentSocketId) {
+        io.to(studentSocketId).emit("qr_status", {
+          status: "inside",
+          message: "✅ QR scanned — you are back inside.",
+        });
+      }
+
+
       return res.status(200).json({ message: "Student can come in" });
     }
 
@@ -284,7 +305,6 @@ const qrscane = async (req, res) => {
     return res.status(500).json({ message: "Server error during QR scan." });
   }
 };
-
 
 
 

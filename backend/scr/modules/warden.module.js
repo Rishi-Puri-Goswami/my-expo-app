@@ -26,6 +26,13 @@ const wardenSchema = new mongoose.Schema(
             type: String
         },
         
+        role : {
+            type : String ,
+            default : "Warden"
+        }
+,
+
+
         requests: [{ type: mongoose.Schema.Types.ObjectId, ref: "Student" }]
 
     },

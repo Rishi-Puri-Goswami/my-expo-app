@@ -121,7 +121,7 @@ const loginWarden = async (req, res) => {
     
 
        const token = jwt.sign(
-  { id: warden._id },
+  { id: warden._id , role : "Warden" },
   process.env.JWT_SERECT,
   { expiresIn: 10 * 24 * 60 * 60 } // 10 days in seconds
 );
@@ -185,77 +185,64 @@ const refreshTokenWarden = async (req, res) => {
 
 
 
+        const handleStudentRequest = async (req, res) => {
+        try {
+            const { action } = req.body;
+            const studentId = req.params.studentId;
 
-const handleStudentRequest = async (req, res) => {
-    try {
-        const { action } = req.body;
-        const studentId = req.params.studentId;
-
- console.log(action , "action");
- console.log(studentId , "studentId");
- 
- if (!studentId || !["accept", "decline"].includes(action))
+            if (!studentId || !["accept", "decline"].includes(action))
             return res.status(400).json({ message: "Invalid request parameters." });
 
-        const student = await Student.findById(studentId);
-        if (!student) return res.status(404).json({ message: "Student not found." });
+            const student = await Student.findById(studentId);
+            if (!student) return res.status(404).json({ message: "Student not found." });
 
-        if (action === "accept") {
+            // Update student permission
+            if (action === "accept") {
             student.permission = "accepted";
-        } else {
+            } else {
             student.permission = "rejected";
             student.wardenid = null;
             student.destination = "nothing";
+            }
 
+            await student.save({ validateBeforeSave: false });
+
+            // Emit real-time event to student
+            const studentSocketId = connectedUsers.get(studentId.toString());
+            if (studentSocketId) {
+            io.to(studentSocketId).emit("outpass_permission", { permission: student.permission ,  wardenname: student.wardenname, });
+            }
+
+            
+            // Optional: reset permission to "none" after some time for rejected students
+            if (action === "decline") {
             setTimeout(async () => {
                 student.permission = "none";
                 await student.save({ validateBeforeSave: false });
 
-                const studentSocketId = connectedUsers.get(studentId);
+                const studentSocketId = connectedUsers.get(studentId.toString());
                 if (studentSocketId) {
-                    io.to(studentSocketId).emit("outpass_permission", { permission: "none" });
+                io.to(studentSocketId).emit("outpass_permission", { permission: "none" });
                 }
+
+
             }, 2000);
-        }
+            }
 
-
-
-
-
-
-        await student.save({ validateBeforeSave: false });
-
-        const studentSocketId = connectedUsers.get(studentId);
-        if (studentSocketId) {
-            io.to(studentSocketId).emit("outpass_permission", { permission: student.permission });
-        }
-
-
-
-
-
-
-
-
-
-        
-        return res.status(200).json({
+            return res.status(200).json({
             message: `Request ${action}ed successfully!`,
             student: {
                 name: student.name,
                 wardenname: student.wardenname,
                 permission: student.permission,
-                destination: student.destination
-            }
-        });
-    } catch (error) {
-        console.error("Error handling student request:", error);
-        return res.status(500).json({ message: "Internal server error.", details: error.message });
-    }
-};
-
-
-
+                destination: student.destination,
+            },
+            });
+        } catch (error) {
+            console.error("Error handling student request:", error);
+            return res.status(500).json({ message: "Internal server error.", details: error.message });
+        }
+        };
 
 
 
