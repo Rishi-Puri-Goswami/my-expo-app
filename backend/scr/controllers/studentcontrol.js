@@ -381,9 +381,10 @@ const getingkey = async (req, res) => {
 const history = async (req, res) => {
 
     try {
- const phoneno = req.student?.phoneNo
+         const studentid = req.student?._id;
 
-      const studentdata = await Hestory.find({studentphoneNO:phoneno })
+
+      const studentdata = await Hestory.find({studentId:studentid })
 
 if(!studentdata){
     res.status(200).json({message : "user history not found"})
