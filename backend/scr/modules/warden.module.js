@@ -30,7 +30,15 @@ const wardenSchema = new mongoose.Schema(
             type : String ,
             default : "Warden"
         }
-,
+        ,
+
+          hostel :{
+            
+type : String,
+enum : ["h3" , "h4" , "h5" , "h6" , "h7"]
+
+        },
+
 
 
         requests: [{ type: mongoose.Schema.Types.ObjectId, ref: "Student" }]

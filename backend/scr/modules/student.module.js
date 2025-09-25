@@ -60,7 +60,7 @@ refreshtoken : {
         hostel :{
             
 type : String,
-enum : ["h2" , "h3" , "h4" , "h5" , "h6" , "h7"]
+enum : ["h3" , "h4" , "h5" , "h6" , "h7"]
 
         },
 
