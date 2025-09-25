@@ -1,23 +1,17 @@
-
 import http from "http";
-import app from "../app.js";
+import app from "../app.js"; // Your Express app
 import { initializeSocket, connectedUsers, io } from "./index.js";
 import dotenv from "dotenv";
 
-const server = http.createServer(app);
-
 dotenv.config({ path: "./.env" });
 
+const server = http.createServer(app);
 
-initializeSocket(server); 
+// Initialize socket
+initializeSocket(server);
 
 server.listen(4000, '0.0.0.0', () => {
-  console.log(`⚙️ Server running on http://10.105.1.152:4000`);
+  console.log(`⚙️ Server running on http://0.0.0.0:4000`);
 });
 
-
 export { io, connectedUsers };
-
-
-
-

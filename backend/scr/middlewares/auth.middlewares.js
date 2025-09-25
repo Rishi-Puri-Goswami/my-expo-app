@@ -27,6 +27,8 @@ console.log(  "after the token check" , token )
 
     console.log(decode , "decoded");
 
+
+
 if(!decode){
     return res.status(404).json({message : "no token found"})
 }
@@ -39,10 +41,11 @@ if(!decode){
         });
     }
 
+    
 
 
     req.student = student;
-    console.log(req.student._id)
+    console.log(req.student._id , "student id smsmsossossossossosso")
     next();
 
 

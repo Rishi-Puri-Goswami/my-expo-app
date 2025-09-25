@@ -287,12 +287,18 @@ const qrscane = async (req, res) => {
 
 
         const studentSocketId = connectedUsers.get(student._id.toString());
+
       if (studentSocketId) {
+        console.log("qr status running");
+        
         io.to(studentSocketId).emit("qr_status", {
           status: "inside",
           message: "✅ QR scanned — you are back inside.",
         });
       }
+
+      
+
 
 
       return res.status(200).json({ message: "Student can come in" });

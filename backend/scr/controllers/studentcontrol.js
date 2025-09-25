@@ -249,19 +249,23 @@ const studentSendRequestToWarden = async (req, res) => {
 
         
 
-        const sentuserrequest = await Student.findById(studentId).select("name destination roomNo collageYear");
+        const sentuserrequest = await Student.findById(studentId).select("name destination roomNo collageYear phoneNo");
 
-        
+if(!sentuserrequest){
+    return res.status(404).json({message : "no student found"});
+}
+
+console.log("student data check phoneno ",sentuserrequest);
         
         const wardenSocketId = connectedUsers.get(wardenId.toString());
         if (wardenSocketId) {
             io.to(wardenSocketId).emit("new_request", {
-                studentId,
+               _id:studentId,
                 name: sentuserrequest.name,
                 destination: sentuserrequest.destination,
                 roomNo: sentuserrequest.roomNo,
+                phoneNo: sentuserrequest.phoneNo,
                 collageYear: sentuserrequest.collageYear,
-                phoneNo : sentuserrequest.phoneNo
             });
         }
 
@@ -343,6 +347,9 @@ const checkStudentStatus = async (req, res) => {
     }
 };
 
+
+
+
 const getingkey = async (req, res) => {
     try {
         const studentid = req.student?._id;
@@ -368,6 +375,8 @@ const getingkey = async (req, res) => {
         return res.status(500).json({ message: "Error on saving key to student" });
     }
 };
+
+
 
 const history = async (req, res) => {
 
